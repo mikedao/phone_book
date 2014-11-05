@@ -39,4 +39,19 @@ class EntryRepositoryTest < Minitest::Test
     assert_equal "222.222.2222", bob.phone_number
   end
 
+  def test_find_by_number
+    entries = [
+      { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
+      { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
+      { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
+      ].map { |row| Entry.new(row) }
+
+    repository = EntryRepository.new(entries)
+    results = repository.find_by_number("222.222.2222")
+    assert_equal 1, results.length
+    bob = results.first
+    assert_equal "Bob Smith", bob.name
+    assert_equal "222.222.2222", bob.phone_number
+  end
+
 end

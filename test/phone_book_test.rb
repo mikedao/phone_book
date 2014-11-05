@@ -20,5 +20,13 @@ class PhoneBookTest < Minitest::Test
     phone_book.lookup('Smith, Alice')
     repository.verify
   end
-  
+
+  def test_lookup_by_number
+    repository = Minitest::Mock.new
+    phone_book = PhoneBook.new(repository)
+    repository.expect(:find_by_number, [], ["(123) 123-1234"])
+    phone_book.reverse_lookup('(123) 123-1234')
+    repository.verify
+  end
+
 end
